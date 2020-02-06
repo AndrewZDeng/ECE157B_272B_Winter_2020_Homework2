@@ -38,11 +38,11 @@ train_y = np.load("train_label.npy")
 train_x = train_x.reshape(train_x.shape[0], 64, 64, 1)
 label_y, type_list = transform_y(train_y)
 
-X_train, X_test, y_train, y_test = train_test_split(train_x, label_y, random_state=0)
+X_train, X_val, y_train, y_val = train_test_split(train_x, label_y, random_state=0)
 
 model = Sequential()
 
-model.add(Conv2D(filters=10, kernel_size=(3,3), strides=(1,1), padding='same', input_shape=(64,64,1), activation='relu'))
+model.add(Conv2D(filters=16, kernel_size=(3,3), strides=(1,1), padding='same', input_shape=(64,64,1), activation='relu'))
 model.add(MaxPooling2D(pool_size=(3,3)))
 model.add(Dropout(0.1))
 
@@ -50,14 +50,16 @@ model.add(Dropout(0.1))
 #model.add(MaxPooling2D(pool_size=(3,3)))
 #model.add(Dropout(0.1))
 
-model.add(Conv2D(filters=64, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
+model.add(Conv2D(filters=40, kernel_size=(5,5), strides=(1,1), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(3,3)))
 model.add(Dropout(0.1))
 
 model.add(Flatten())
 
-#model.add(Dense(16, activation='relu'))
+#model.add(Dense(6, activation='relu'))
 model.add(Dense(6, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=40, batch_size=16)
+model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=40, batch_size=10)
+
+model.save("my_model.h5")
