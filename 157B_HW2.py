@@ -50,7 +50,7 @@ model.add(Dropout(0.1))
 #model.add(MaxPooling2D(pool_size=(3,3)))
 #model.add(Dropout(0.1))
 
-model.add(Conv2D(filters=64, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
+model.add(Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(3,3)))
 model.add(Dropout(0.1))
 
