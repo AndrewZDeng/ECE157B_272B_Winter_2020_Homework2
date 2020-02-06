@@ -42,7 +42,7 @@ X_train, X_test, y_train, y_test = train_test_split(train_x, label_y, random_sta
 
 model = Sequential()
 
-model.add(Conv2D(filters=16, kernel_size=(3,3), strides=(1,1), padding='same', input_shape=(64,64,1), activation='relu'))
+model.add(Conv2D(filters=10, kernel_size=(3,3), strides=(1,1), padding='same', input_shape=(64,64,1), activation='relu'))
 model.add(MaxPooling2D(pool_size=(3,3)))
 model.add(Dropout(0.1))
 
@@ -50,7 +50,7 @@ model.add(Dropout(0.1))
 #model.add(MaxPooling2D(pool_size=(3,3)))
 #model.add(Dropout(0.1))
 
-model.add(Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
+model.add(Conv2D(filters=64, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(3,3)))
 model.add(Dropout(0.1))
 
