@@ -4,7 +4,6 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
 
 def transform_y(train_y):
     type_list = []
@@ -60,6 +59,12 @@ model.add(Flatten())
 model.add(Dense(6, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
-model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=40, batch_size=10)
+model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=40, batch_size=5)
 
 model.save("my_model.h5")
+
+np.save("type_list.npy", type_list)
+np.save("X_train.npy", X_train)
+np.save("y_train.npy", y_train)
+np.save("X_val.npy", X_val)
+np.save("y_val.npy", y_val)
