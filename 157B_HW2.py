@@ -1,7 +1,7 @@
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
-from keras.layers.convolutional import Conv2D, MaxPooling2D
+from keras.layers.convolutional import Conv2D, AveragePooling2D
 
 from sklearn.model_selection import train_test_split
 
@@ -37,29 +37,31 @@ train_y = np.load("train_label.npy")
 train_x = train_x.reshape(train_x.shape[0], 64, 64, 1)
 label_y, type_list = transform_y(train_y)
 
-X_train, X_val, y_train, y_val = train_test_split(train_x, label_y, random_state=0)
+X_train, X_val, y_train, y_val = train_test_split(train_x, label_y, random_state=0, train_size=0.9)
 
 model = Sequential()
 
-model.add(Conv2D(filters=16, kernel_size=(3,3), strides=(1,1), padding='same', input_shape=(64,64,1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(3,3)))
+model.add(Conv2D(filters=16, kernel_size=(4,4), strides=(1,1), padding='valid', input_shape=(64,64,1), activation='relu'))
+model.add(AveragePooling2D(pool_size=(2,2)))
 model.add(Dropout(0.1))
 
-#model.add(Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), padding='same', activation='relu'))
-#model.add(MaxPooling2D(pool_size=(3,3)))
-#model.add(Dropout(0.1))
+# model.add(Conv2D(filters=6, kernel_size=(2,2), strides=(1,1), padding='valid', activation='relu'))
+# model.add(AveragePooling2D(pool_size=(2,2)))
+# model.add(Dropout(0.1))
 
-model.add(Conv2D(filters=40, kernel_size=(5,5), strides=(1,1), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(3,3)))
+model.add(Conv2D(filters=24, kernel_size=(3,3), strides=(1,1), padding='valid', activation='relu'))
+model.add(AveragePooling2D(pool_size=(4,4)))
 model.add(Dropout(0.1))
 
 model.add(Flatten())
 
-#model.add(Dense(6, activation='relu'))
+# model.add(Dense(64, activation='relu'))
+model.add(Dense(6, activation='relu'))
+# model.add(Dropout(0.1))
 model.add(Dense(6, activation='softmax'))
-
-model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
-model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=40, batch_size=5)
+model.summary()
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=200, batch_size=20)
 
 model.save("my_model.h5")
 

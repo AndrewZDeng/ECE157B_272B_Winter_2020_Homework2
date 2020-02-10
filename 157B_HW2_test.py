@@ -42,4 +42,4 @@ y_test_prd = model.predict(X_test)
 category_test_prd = transform2label(y_test_prd, type_list)
 
 print(category_test_prd)
-np.save("test_label.npy", category_test_prd)
+np.save("prediction.npy", category_test_prd)
